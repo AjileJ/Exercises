@@ -21,20 +21,20 @@ router.route('/add').post((req,res) => {
     });
 
     newExercise.save()
-    .then(() => res.status(201).json('Exercise Added!'))
+    .then(() => res.json('Exercise Added!'))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/:id').get((req,res) => {
     Exercise.findById(req.params.id)
-        .then(exercise => res.status(200).json(exercise))
-        .catch(err => res.status(400).json('Error: ' + err))
+        .then(exercise => res.json(exercise))
+        .catch(err => res.status(400).json('Error: ', err))
 })
 
 router.route('/:id').delete((req,res) => {
     Exercise.findByIdAndDelete(req.params.id)
         .then(() => res.json('Exercise deleted.'))
-        .catch(err => res.status(400).json('Error: ' + err))
+        .catch(err => res.status(400).json('Error: ', err))
 })
 
 router.route('/update/:id').post((req,res) => {
@@ -47,9 +47,9 @@ router.route('/update/:id').post((req,res) => {
 
             exercise.save()
                 .then(() => res.json('Exercise updated!'))
-                .catch(err => res.status(400).json('Error: ' + err));
+                .catch(err => res.status(400).json('Error: ', err));
         })
-        .catch(err => res.status(400).json('Error: ' + err));
+        .catch(err => res.status(400).json('Error: ', err));
 })
 
 

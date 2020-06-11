@@ -3,7 +3,7 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-export default function EditExercises(props){
+export default function CreateExercises(props){
 
 
     const [username, setUsername] = useState('');
@@ -13,21 +13,11 @@ export default function EditExercises(props){
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/exercises/' +props.match.params.id)
-            .then(res => {
-                setUsername(res.data.username)
-                setDescription(res.data.description)
-                setDuration(res.data.duration)
-                setDate(new Date(res.data.date))
-            })
-            .catch(err => {
-                console.log("error: ", err)
-            })
-
         axios.get('http://localhost:5000/users/')
             .then(res => {
                 if(res.data.length > 0){
                     setUsers(res.data.map(user => user.username))
+                    setUsername(res.data[0].username)
                 }
             })
             .catch(err => {
@@ -59,7 +49,7 @@ export default function EditExercises(props){
         }
         console.log(exercise);
 
-        axios.post('http://localhost:5000/exercises/update/' +props.match.params.id, exercise)
+        axios.post('http://localhost:5000/exercises/add/', exercise)
             .then(res => {
                 console.log(res.data)
             })
@@ -69,7 +59,7 @@ export default function EditExercises(props){
 
     return(
         <div>
-            <h3>Edit Exercise Log</h3>
+            <h3>Create New Exercise Log</h3>
             <form onSubmit={onSubmit}>
             <div className = 'form-group'>
                 <label>Username: </label>
@@ -118,7 +108,7 @@ export default function EditExercises(props){
                 </div>
             </div>
             <div className='form-group'>
-                <input type="submit" value='Edit Exercise Log' className='btn btn-primary' />
+                <input type="submit" value='Create Exercise Log' className='btn btn-primary' />
             </div>
           </form>
         </div>
